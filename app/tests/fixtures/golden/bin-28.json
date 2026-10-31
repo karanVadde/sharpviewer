@@ -1,0 +1,11 @@
+{
+  "url": "/export?image=fhd&format=webp&quality=50&grayscale=1&corners=30",
+  "status": 200,
+  "contentType": "image/webp",
+  "size": 83352,
+  "sha256": "94bfe48fd402b186d80321c352d4f35342b0a0b8ab864bfcd0ef0e413b6d3c8f",
+  "headers": {
+    "content-disposition": "attachment; filename=\"fhd-1920x1080-grey.webp\"",
+    "x-export-quality": "50"
+  }
+}

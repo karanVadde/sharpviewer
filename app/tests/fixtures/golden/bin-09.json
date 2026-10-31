@@ -1,0 +1,8 @@
+{
+  "url": "/image?image=photo&wm=1&wmWidth=20%25",
+  "status": 200,
+  "contentType": "image/png",
+  "size": 307976,
+  "sha256": "c608bc375bb70b067e6e3917c7a245e5b5ed58787d5c8d09980294db254b2abe",
+  "headers": {}
+}

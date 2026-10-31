@@ -1,0 +1,35 @@
+{
+  "name": "sharp-viewer",
+  "version": "0.7.1",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.21.0"
+  },
+  "scripts": {
+    "preflight": "node tools/check-install.ts",
+    "predev": "npm run -s preflight",
+    "dev": "node src/server.ts",
+    "prestart": "npm run -s preflight",
+    "start": "node src/server.ts",
+    "pretest": "npm run -s preflight",
+    "test": "node --test \"tests/**/*.test.ts\"",
+    "pretest:full": "npm run -s preflight",
+    "test:full": "SHARP_VIEWER_TEST_FULL=1 node --test \"tests/**/*.test.ts\"",
+    "pretypecheck": "npm run -s preflight",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check src tests tools",
+    "lint:fix": "biome check --write src tests tools",
+    "check": "npm run typecheck && npm run lint && npm test",
+    "watermark": "python3 tools/make-watermark.py",
+    "watermark:node": "node tools/make-watermark.ts"
+  },
+  "dependencies": {
+    "sharp": "0.33.5"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.14",
+    "@types/node": "^22.0.0",
+    "typescript": "5.9.3"
+  }
+}

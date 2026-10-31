@@ -1,0 +1,8 @@
+{
+  "url": "/image?image=photo&width=300&height=300&corners=100",
+  "status": 200,
+  "contentType": "image/png",
+  "size": 27002,
+  "sha256": "9bd357cad469324a22e691032c0959980e0cae517ba624984085ab9df011339b",
+  "headers": {}
+}

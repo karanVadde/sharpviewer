@@ -1,0 +1,53 @@
+{
+  "url": "/android.zip?image=photo&androidName=banner&dp=360",
+  "status": 200,
+  "filename": "banner-android.zip",
+  "warnings": "",
+  "entries": [
+    {
+      "name": "res/drawable-mdpi/banner.png",
+      "size": 29876,
+      "sha256": "eef017bfca179803504d2ccbd5271af60da1890040e450712a6a65eb541aa2d9"
+    },
+    {
+      "name": "res/drawable-hdpi/banner.png",
+      "size": 57925,
+      "sha256": "acf2a3e3ebb1586d760f09ca87a7c74266816386788e61b810933b536170e146"
+    },
+    {
+      "name": "res/drawable-xhdpi/banner.png",
+      "size": 92971,
+      "sha256": "0dd7e3cd4e6bedae0d5709f35990cda63a1e26e59e63333843b1cb9e3a773ed9"
+    },
+    {
+      "name": "res/drawable-xxhdpi/banner.png",
+      "size": 186471,
+      "sha256": "4a696a922abaed62064a3d29dac1c9dfd7d8a5f53fe950f63e70618edb9a4698"
+    },
+    {
+      "name": "res/drawable-xxxhdpi/banner.png",
+      "size": 308568,
+      "sha256": "d36ddc23a79e03710b780d261675f3e993cee4048cbf105b0c369dc6d4a2122a"
+    },
+    {
+      "name": "README.txt",
+      "size": 478,
+      "sha256": null
+    }
+  ],
+  "readme": [
+    "Sharp Viewer - Android assets",
+    "",
+    "Drawable \"banner\" - 360 dp, from a 1600x1200 px source",
+    "",
+    "res/drawable-mdpi/banner.png: 360x270 px (1x)",
+    "res/drawable-hdpi/banner.png: 540x405 px (1.5x)",
+    "res/drawable-xhdpi/banner.png: 720x540 px (2x)",
+    "res/drawable-xxhdpi/banner.png: 1080x810 px (3x)",
+    "res/drawable-xxxhdpi/banner.png: 1440x1080 px (4x)",
+    "",
+    "No warnings: the source has enough pixels for every size.",
+    "",
+    "Copy the res/ folders into your module's src/main/res/."
+  ]
+}

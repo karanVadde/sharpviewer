@@ -1,0 +1,35 @@
+{
+  "url": "/android.zip?layout=split-h&cells=photo,fhd&androidName=pair&dp=360&buckets=mdpi,xhdpi",
+  "status": 200,
+  "filename": "pair-android.zip",
+  "warnings": "",
+  "entries": [
+    {
+      "name": "res/drawable-mdpi/pair.png",
+      "size": 149583,
+      "sha256": "46cf0b75664be4e94af1c85507f11814c41e1326ce70499debfd612ff22fbb41"
+    },
+    {
+      "name": "res/drawable-xhdpi/pair.png",
+      "size": 532746,
+      "sha256": "fa615d86e79d4d6a1a455efaa5c85f2d70ac8da11e7f86b8131ddd0e944f6207"
+    },
+    {
+      "name": "README.txt",
+      "size": 324,
+      "sha256": null
+    }
+  ],
+  "readme": [
+    "Sharp Viewer - Android assets",
+    "",
+    "Drawable \"pair\" - 360 dp, from a 1080x1080 px source",
+    "",
+    "res/drawable-mdpi/pair.png: 360x360 px (1x)",
+    "res/drawable-xhdpi/pair.png: 720x720 px (2x)",
+    "",
+    "No warnings: the source has enough pixels for every size.",
+    "",
+    "Copy the res/ folders into your module's src/main/res/."
+  ]
+}

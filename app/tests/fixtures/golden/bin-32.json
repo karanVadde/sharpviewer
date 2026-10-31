@@ -1,0 +1,8 @@
+{
+  "url": "/image?layout=grid-2x2&cells=photo,fhd,portrait,panorama&preset=ig-square",
+  "status": 200,
+  "contentType": "image/png",
+  "size": 607561,
+  "sha256": "f965912aa8e6832830e7e508d618920878d87b7f4c597a476be336a88cd456b6",
+  "headers": {}
+}

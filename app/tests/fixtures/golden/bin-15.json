@@ -1,0 +1,8 @@
+{
+  "url": "/image?image=photo&preset=ig-square&fit=contain&bg=%23222222",
+  "status": 200,
+  "contentType": "image/png",
+  "size": 189213,
+  "sha256": "811144f86ae742f315705a4eea8fe678113488dc6de565f5764111429ad3ca8c",
+  "headers": {}
+}

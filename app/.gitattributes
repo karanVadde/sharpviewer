@@ -1,0 +1,2 @@
+tests/fixtures/golden/*.bin binary
+tests/fixtures/golden/*.zip binary

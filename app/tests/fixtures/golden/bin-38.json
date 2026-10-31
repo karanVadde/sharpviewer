@@ -1,0 +1,8 @@
+{
+  "url": "/image?image=photo&preset=ig-portrait&wm=1&wmWidth=20%25&grayscale=1&thumb=96",
+  "status": 200,
+  "contentType": "image/png",
+  "size": 2741,
+  "sha256": "6618f7cc287b5f20dc7dbafadeca1c91b0f4f21e888e382c2b741100fe983dda",
+  "headers": {}
+}

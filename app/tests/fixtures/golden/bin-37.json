@@ -1,0 +1,8 @@
+{
+  "url": "/image?image=photo&preset=ig-square&wm=1&wmWidth=20%25&thumb=150x150",
+  "status": 200,
+  "contentType": "image/png",
+  "size": 10568,
+  "sha256": "c2d4d898cbe1c335a15c81c063829eee1763d6ef6cfff3f93c0e38061ad5d060",
+  "headers": {}
+}

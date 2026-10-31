@@ -1,0 +1,8 @@
+{
+  "url": "/image?sharpen=1&grayscale=1",
+  "status": 200,
+  "contentType": "image/png",
+  "size": 25622,
+  "sha256": "fd279fea6401149279e714f82013f35034d7febce31cc03326c2cb5ae29c8e25",
+  "headers": {}
+}

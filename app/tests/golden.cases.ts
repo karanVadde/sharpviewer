@@ -1,0 +1,100 @@
+/**
+ * Golden-fixture cases: the URLs whose output is frozen byte-for-byte in tests/fixtures/golden/.
+ *
+ * Pages are stored as full HTML (diffable); binary outputs as SHA-256 + size. Regenerate with
+ * `node tests/golden.update.ts` ONLY when a behaviour change is intended, and say why in the commit.
+ */
+export const GOLDEN_PAGES: string[] = [
+  "/",
+  "/?wm=1&wmWidth=300&wmOpacity=90",
+  "/?image=photo&grayscale=1&corners=40&preset=ig-square&format=jpeg&quality=75&maxKB=90",
+  "/?image=photo&wm=1&wmWidth=20%25&corners=20",
+  "/?image=panorama&rotate=90&width=300&wm=1&wmWidth=50%25&sharpen=1",
+  "/?image=thumb&wm=1&wmWidth=100%25",
+  "/?wm=1&wmWidth=960",
+  "/?wm=1&traverseX=-800&traverseY=30",
+  "/?wm=1&traverseX=-800&appliedTraverseX=-100",
+  "/?wm=1&wmWidth=200&traverseX=-744&traverseY=-606&corners=30",
+  "/?image=nope",
+  "/?width=abc",
+  "/?rotate=45",
+  "/?format=png&maxKB=50",
+  "/?image=photo&preset=ig-story&guides=1",
+  "/?image=photo&preset=ig-square&fit=contain&bg=%23222222&format=webp&quality=60",
+  "/?view=mobile",
+  "/?view=mobile&device=iphone-13&guides=1&wm=1&wmWidth=20%25",
+  "/?view=mobile&device=galaxy-tab-s4&orientation=landscape&image=fhd",
+  "/?view=mobile&device=nope",
+  "/?embed=image&wm=1&wmWidth=20%25&image=portrait",
+  "/?image=photo&androidMode=icon&guides=1&bg=%231f2933",
+  "/?image=thumb&androidName=hero&dp=360&dpHeight=200&buckets=mdpi,xxxhdpi&androidFormat=webp&nodpi=1",
+  "/?image=photo&androidName=My-Banner",
+  "/?image=photo&wm=1&wmWidth=20%25&wmHeight=10%25&wmMargin=0&wmOpacity=100&traverseX=10&traverseY=10",
+  "/?image=fhd&height=320&rotate=180&grayscale=1&sharpen=1&corners=100",
+  "/?image=sample&width=300&height=300&corners=100&wm=1&wmWidth=50%25",
+  // Collage (4k)
+  "/?layout=grid-2x2&cells=photo,fhd,portrait,panorama&preset=ig-square",
+  "/?layout=hero-3&cells=photo,,thumb&preset=yt-thumb&bg=%23111111&cellCorners=30&gutter=12&guides=1&wm=1&wmWidth=20%25",
+  "/?layout=screens-3&cells=portrait,portrait,portrait&preset=fb-post&cellFit=contain&view=mobile&device=pixel-7",
+  "/?layout=nope",
+  // In context (4.9)
+  "/?image=photo&preset=ig-portrait&wm=1&wmWidth=20%25&view=context",
+  "/?image=fhd&wm=1&wmWidth=40%25&view=context&scene=list&row=96&theme=dark&guides=1",
+  "/?image=photo&preset=ig-square&wm=1&wmWidth=30%25&view=context&scene=feed",
+  "/?image=photo&preset=ig-square&wm=1&wmWidth=30%25&view=context&scene=feed&frame=1&device=pixel-7",
+];
+
+export const GOLDEN_BINARIES: string[] = [
+  "/image",
+  "/image?width=480",
+  "/image?height=320",
+  "/image?width=300&height=300",
+  "/image?rotate=90",
+  "/image?rotate=180",
+  "/image?rotate=90&width=320",
+  "/image?wm=1",
+  "/image?wm=1&wmWidth=300",
+  "/image?image=photo&wm=1&wmWidth=20%25",
+  "/image?image=panorama&rotate=90&width=300&wm=1&wmWidth=50%25",
+  "/image?sharpen=1&grayscale=1",
+  "/image?corners=25",
+  "/image?image=photo&width=300&height=300&corners=100",
+  "/image?image=photo&preset=ig-story",
+  "/image?image=photo&preset=ig-square&fit=contain&bg=%23222222",
+  "/image?wm=1&wmHeight=40",
+  "/image?wm=1&wmWidth=250&wmHeight=120",
+  "/image?wm=1&wmWidth=200&wmMargin=0&wmOpacity=100",
+  "/image?rotate=90&width=320&wm=1&wmWidth=100",
+  "/image?wm=1&wmWidth=200&traverseX=-100&traverseY=-50",
+  "/image?wm=1&wmWidth=200&traverseX=-744&traverseY=-606",
+  "/image?image=fhd&grayscale=1&wm=1&wmWidth=25%25&corners=40&sharpen=1",
+  "/image?image=portrait&preset=yt-thumb",
+  "/image?image=thumb&preset=pin&fit=contain&bg=%23ff0000&corners=10",
+  "/export?image=photo&preset=ig-square&format=jpeg&quality=82",
+  "/export?image=photo&preset=ig-square&format=jpeg&maxKB=60",
+  "/export?image=panorama&preset=ig-story&fit=contain&bg=%23222222&format=png&wm=1&wmWidth=20%25",
+  "/export?image=fhd&format=webp&quality=50&grayscale=1&corners=30",
+  "/export?corners=50&format=jpeg&bg=%2300ff00",
+  "/android/icon-preview?image=photo&bg=%231f2933",
+  "/android/icon-preview?image=thumb&grayscale=1&rotate=90",
+  // Collage (4k)
+  "/image?layout=grid-2x2&cells=photo,fhd,portrait,panorama&preset=ig-square",
+  "/image?layout=hero-3&cells=photo,,thumb&preset=yt-thumb&bg=%23111111&cellCorners=30&gutter=12&wm=1&wmWidth=20%25&corners=15",
+  "/image?layout=screens-3&cells=portrait,portrait,portrait&preset=fb-post&cellFit=contain",
+  "/image?layout=grid-3x3&cells=sample,thumb,photo,fhd,portrait,panorama,sample,thumb&gutter=0&grayscale=1",
+  "/export?layout=split-h&cells=photo,fhd&preset=x-header&format=jpeg&quality=70",
+  // thumb display scale
+  "/image?image=photo&preset=ig-square&wm=1&wmWidth=20%25&thumb=150x150",
+  "/image?image=photo&preset=ig-portrait&wm=1&wmWidth=20%25&grayscale=1&thumb=96",
+  "/image?image=fhd&wm=1&wmWidth=40%25&corners=30&thumb=470x",
+  "/image?image=portrait&preset=ig-story&thumb=x300",
+];
+
+/** ZIPs contain a timestamp in README.txt, so they are frozen as entry names + sizes + image hashes. */
+export const GOLDEN_ZIPS: string[] = [
+  "/android.zip?image=photo&androidName=banner&dp=360",
+  "/android.zip?image=thumb&androidName=hero&dp=360&dpHeight=200&buckets=mdpi,xxxhdpi&androidFormat=webp&nodpi=1&wm=1&wmWidth=20%25",
+  "/android.zip?image=photo&androidMode=icon&bg=%231f2933",
+  "/android.zip?image=panorama&androidName=wide&dp=200&preset=ig-square&fit=contain&bg=%23123456&dpHeight=100&corners=20",
+  "/android.zip?layout=split-h&cells=photo,fhd&androidName=pair&dp=360&buckets=mdpi,xhdpi",
+];

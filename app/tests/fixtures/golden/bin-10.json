@@ -1,0 +1,8 @@
+{
+  "url": "/image?image=panorama&rotate=90&width=300&wm=1&wmWidth=50%25",
+  "status": 200,
+  "contentType": "image/png",
+  "size": 55681,
+  "sha256": "f7ebae6023f12a5516d614cbd795c6c126725e9cfd0facb36bbbfb6addb08601",
+  "headers": {}
+}

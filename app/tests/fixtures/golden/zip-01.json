@@ -1,0 +1,43 @@
+{
+  "url": "/android.zip?image=thumb&androidName=hero&dp=360&dpHeight=200&buckets=mdpi,xxxhdpi&androidFormat=webp&nodpi=1&wm=1&wmWidth=20%25",
+  "status": 200,
+  "filename": "hero-android.zip",
+  "warnings": "2",
+  "entries": [
+    {
+      "name": "res/drawable-mdpi/hero.webp",
+      "size": 7954,
+      "sha256": "05b454f27cc88712f4d5f4df48eca585ee2560396cab6c08de9646ebfa04b752"
+    },
+    {
+      "name": "res/drawable-xxxhdpi/hero.webp",
+      "size": 53742,
+      "sha256": "72ed8e115d605a689962280a58b723d5bacd76d3816bdd93257fdd8f013e8bcf"
+    },
+    {
+      "name": "res/drawable-nodpi/hero.webp",
+      "size": 7954,
+      "sha256": "05b454f27cc88712f4d5f4df48eca585ee2560396cab6c08de9646ebfa04b752"
+    },
+    {
+      "name": "README.txt",
+      "size": 526,
+      "sha256": null
+    }
+  ],
+  "readme": [
+    "Sharp Viewer - Android assets",
+    "",
+    "Drawable \"hero\" - 360x200 dp, from a 320x240 px source",
+    "",
+    "res/drawable-mdpi/hero.webp: 360x200 px (1x) - UPSCALED ×1.1",
+    "res/drawable-xxxhdpi/hero.webp: 1440x800 px (4x) - UPSCALED ×4.5",
+    "res/drawable-nodpi/hero.webp: 360x200 px (density-independent, drawn 1:1)",
+    "",
+    "WARNINGS",
+    "- mdpi (360x200 px) is upscaled ×1.1 from the 320x240 px source.",
+    "- xxxhdpi (1440x800 px) is upscaled ×4.5 from the 320x240 px source.",
+    "",
+    "Copy the res/ folders into your module's src/main/res/."
+  ]
+}

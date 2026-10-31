@@ -1,0 +1,8 @@
+{
+  "url": "/image?layout=hero-3&cells=photo,,thumb&preset=yt-thumb&bg=%23111111&cellCorners=30&gutter=12&wm=1&wmWidth=20%25&corners=15",
+  "status": 200,
+  "contentType": "image/png",
+  "size": 303014,
+  "sha256": "40a91862e34bb5f9f743b9902a77fa2ecafa6f68121386fd591e0424fbd73dcc",
+  "headers": {}
+}

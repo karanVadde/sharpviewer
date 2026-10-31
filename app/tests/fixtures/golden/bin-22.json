@@ -1,0 +1,8 @@
+{
+  "url": "/image?image=fhd&grayscale=1&wm=1&wmWidth=25%25&corners=40&sharpen=1",
+  "status": 200,
+  "contentType": "image/png",
+  "size": 351051,
+  "sha256": "8979aebb7cce334077ab39890673c062dfb9d4ea96ab146dabbeef9655ddbe18",
+  "headers": {}
+}

@@ -1,0 +1,8 @@
+{
+  "url": "/image?image=thumb&preset=pin&fit=contain&bg=%23ff0000&corners=10",
+  "status": 200,
+  "contentType": "image/png",
+  "size": 83496,
+  "sha256": "a864ced65d3891feb7209c3d8b08e7d8daea368bdbaad108c09db7778b3f09a6",
+  "headers": {}
+}

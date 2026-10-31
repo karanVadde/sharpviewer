@@ -1,0 +1,8 @@
+{
+  "url": "/image?layout=grid-3x3&cells=sample,thumb,photo,fhd,portrait,panorama,sample,thumb&gutter=0&grayscale=1",
+  "status": 200,
+  "contentType": "image/png",
+  "size": 158430,
+  "sha256": "4e35aadd883d59d3a77084f1843746a4e0b8c3c4e6f439cee3ecea460e12eba5",
+  "headers": {}
+}

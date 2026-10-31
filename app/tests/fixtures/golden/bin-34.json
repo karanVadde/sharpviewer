@@ -1,0 +1,8 @@
+{
+  "url": "/image?layout=screens-3&cells=portrait,portrait,portrait&preset=fb-post&cellFit=contain",
+  "status": 200,
+  "contentType": "image/png",
+  "size": 53613,
+  "sha256": "f8660f9fe8a7e48af5ee7cda71cc139b84b4bf77b5ca6c249dee7e17631b288b",
+  "headers": {}
+}

@@ -1,0 +1,960 @@
+<!-- golden: /?view=mobile&device=iphone-13&guides=1&wm=1&wmWidth=20%25 status=200 -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sharp Viewer</title>
+    <style>
+      :root {
+        --bg: #f7f7f5;
+        --surface: #ffffff;
+        --border: #e4e2dd;
+        --text: #1c1917;
+        --muted: #6b6660;
+        --accent: #0f766e;
+        --accent-ink: #ffffff;
+        --danger-bg: #fff1f0;
+        --danger-ink: #9f1d1d;
+        --danger-border: #f3c2c2;
+        --warn-bg: #fff8eb;
+        --warn-ink: #7a3e0a;
+        --warn-border: #f2d49b;
+        --radius: 10px;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font: 14px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      }
+
+      main {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 20px 20px 48px;
+      }
+
+      a { color: inherit; }
+
+      /* ---------- header ---------- */
+      .top {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px 16px;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 520px) {
+        .mode-switch { order: 3; width: 100%; margin-left: 0; justify-content: center; }
+        .mode-switch a { flex: 1; text-align: center; padding: 5px 8px; }
+      }
+
+      .brand {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+
+      .mode-switch {
+        display: inline-flex;
+        margin-left: auto;
+        padding: 3px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: var(--surface);
+      }
+
+      .mode-switch a {
+        padding: 5px 14px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 500;
+        color: var(--muted);
+      }
+
+      .mode-switch a.active {
+        background: var(--text);
+        color: #fff;
+      }
+
+      .spec-link {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .spec-link:hover { color: var(--text); }
+
+      /* ---------- messages ---------- */
+      .error {
+        margin: 0 0 16px;
+        padding: 10px 14px;
+        border: 1px solid var(--danger-border);
+        border-radius: var(--radius);
+        background: var(--danger-bg);
+        color: var(--danger-ink);
+      }
+
+      .toasts {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-width: min(400px, calc(100vw - 32px));
+      }
+
+      .toast {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 10px 12px;
+        border: 1px solid var(--warn-border);
+        border-radius: var(--radius);
+        background: var(--warn-bg);
+        color: var(--warn-ink);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        animation: toast-in 0.2s ease-out;
+      }
+
+      .toast.hide { transition: opacity 0.3s, transform 0.3s; opacity: 0; transform: translateX(16px); }
+
+      .toast-close {
+        margin-left: auto;
+        padding: 0 4px;
+        border: 0;
+        background: none;
+        color: inherit;
+        font: inherit;
+        font-size: 18px;
+        line-height: 1;
+        cursor: pointer;
+      }
+
+      @keyframes toast-in { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: none; } }
+
+      /* ---------- preview ---------- */
+      .preview {
+        padding: 16px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--surface);
+      }
+
+      .preview img {
+        display: block;
+        width: auto;
+        max-width: 100%;
+        max-height: 72vh;
+        height: auto;
+        margin: 0 auto;
+        border-radius: 6px;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      body.embed main { padding: 32px 20px; }
+      body.embed .preview { padding: 0; border: 0; background: none; }
+      body.embed .preview img { width: 100%; max-height: none; border-radius: 12px; }
+
+      .device-preview {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .device-frame-box {
+        position: relative;
+        overflow: hidden;
+        border-radius: 22px;
+        box-shadow: 0 0 0 8px #1c1917, 0 0 0 9px #3f3a36, 0 18px 40px rgba(0, 0, 0, 0.22);
+        background: #fff;
+      }
+
+      .device-frame { position: absolute; top: 0; left: 0; transform-origin: top left; }
+      .device-frame iframe { display: block; border: 0; width: 100%; height: 100%; background: var(--bg); }
+
+      .device-controls {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 8px 12px;
+        width: 100%;
+        color: var(--muted);
+      }
+
+      .device-controls .nav,
+      .device-controls .orientation {
+        padding: 4px 10px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: var(--surface);
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .device-caption { font-variant-numeric: tabular-nums; }
+      .device-caption strong { color: var(--text); }
+
+      .device-chips {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+      }
+
+      .device-chips .platform {
+        margin: 0 2px 0 8px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .device-chips .platform:first-child { margin-left: 0; }
+
+      .chip {
+        padding: 2px 9px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: var(--surface);
+        color: var(--muted);
+        text-decoration: none;
+      }
+
+      .chip.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+      .device-note { margin: 0; font-size: 12px; color: var(--muted); }
+
+      /* ---------- in context (4.9) ---------- */
+      .context-preview { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+      .scene { padding: 16px; border-radius: 12px; border: 1px solid var(--border); background: #fff; color: #1c1917; max-width: 100%; overflow: auto; }
+      .scene.dark { background: #111; color: #eee; border-color: #333; }
+      .scene .ours { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+      .scene-size { font-size: 11px; color: var(--accent); font-variant-numeric: tabular-nums; }
+      .chip.fix { border-color: #d97706; color: #7a3e0a; background: var(--warn-bg); }
+      .grid-tiles { display: grid; grid-template-columns: repeat(3, var(--tile)); gap: 3px; }
+      .tile-box { position: relative; width: var(--tile); height: var(--tile); margin: 0; }
+      .tile-box img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 0; }
+      .tile-box.guided .scene-size { position: absolute; left: 4px; bottom: 4px; background: rgba(255,255,255,0.85); padding: 1px 5px; border-radius: 4px; }
+      .list-rows { list-style: none; margin: 0; padding: 0; width: min(100%, 520px); }
+      .list-rows .row { display: flex; align-items: center; gap: 12px; padding: 8px 6px; border-bottom: 1px solid rgba(128,128,128,0.25); }
+      .list-rows .row img { width: var(--row); height: var(--row); object-fit: cover; border-radius: 6px; flex: none; }
+      .list-rows .row-text { display: flex; flex-direction: column; gap: 2px; font-size: 13px; min-width: 0; }
+      .list-rows .row-text span { color: #888; font-size: 12px; }
+      .scene-feed { max-height: 72vh; }
+      .feed { width: var(--feed); max-width: 100%; display: flex; flex-direction: column; gap: 18px; }
+      body.embed-scene .scene-feed { max-height: none; border: 0; border-radius: 0; padding: 0; }
+      body.embed-scene .feed { width: 100%; }
+      body.embed-scene .feed .post { border-left: 0; border-right: 0; border-radius: 0; }
+      .feed .post { border: 1px solid rgba(128,128,128,0.3); border-radius: 10px; overflow: hidden; }
+      .feed .post header, .feed .post .actions-row, .feed .post p { display: flex; align-items: center; gap: 8px; padding: 8px 12px; font-size: 13px; margin: 0; }
+      .feed .post .actions-row { gap: 16px; font-size: 15px; }
+      .feed .post header .dot, .feed .post header span:last-child { color: #888; }
+      .feed .avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #c4b5fd, #0f766e); display: inline-block; }
+      .feed figure { margin: 0; position: relative; line-height: 0; }
+      .feed figure img { display: block; width: 100%; height: auto; border-radius: 0; }
+      .feed figure .scene-size { position: absolute; left: 8px; bottom: 8px; background: rgba(255,255,255,0.85); padding: 1px 6px; border-radius: 4px; line-height: 1.4; }
+      .scene.dark .scene-size, .scene.dark .tile-box.guided .scene-size, .scene.dark .feed figure .scene-size { background: rgba(0,0,0,0.7); }
+      body.embed-scene main { padding: 12px; }
+      body.embed-scene .preview { padding: 0; border: 0; background: none; }
+
+      /* ---------- controls ---------- */
+      .controls {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-top: 16px;
+      }
+
+      @media (min-width: 720px) {
+        .controls { grid-template-columns: 1fr 1fr; }
+      }
+
+      section.card {
+        padding: 16px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--surface);
+      }
+
+      .card h2 {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .card .context {
+        margin: 2px 0 12px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .fields {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px 12px;
+      }
+
+      section.card { min-width: 0; }
+
+      .fields label,
+      .field {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end; /* a label that wraps keeps its input level with its neighbours */
+        gap: 4px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .fields label.wide { grid-column: 1 / -1; }
+
+      input[type="text"],
+      input[type="number"],
+      select {
+        width: 100%;
+        height: 34px;
+        padding: 0 10px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: var(--surface);
+        color: var(--text);
+        font: inherit;
+      }
+
+      input:focus-visible, select:focus-visible, button:focus-visible, .chip:focus-visible, .mode-switch a:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 1px;
+      }
+
+      .check {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        align-self: end;
+        height: 34px;
+        font-size: 13px;
+        color: var(--text);
+      }
+
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .row.first { margin-top: 0; }
+
+      button {
+        height: 34px;
+        padding: 0 14px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: var(--surface);
+        color: var(--text);
+        font: inherit;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+      .button-link {
+        display: inline-flex;
+        align-items: center;
+        height: 34px;
+        padding: 0 14px;
+        border: 1px solid var(--accent);
+        border-radius: 6px;
+        background: var(--accent);
+        color: var(--accent-ink);
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .button-link[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
+      button.danger { color: var(--danger-ink); }
+
+      .link {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      input[type="file"] { font-size: 13px; color: var(--muted); max-width: 100%; }
+
+      .actions {
+        position: sticky;
+        bottom: 0;
+        z-index: 5;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        margin-top: 16px;
+        padding: 10px 14px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--surface);
+        box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.06);
+      }
+
+      .actions .busy { font-size: 12px; color: var(--muted); }
+      main[aria-busy="true"] .preview img { transition: opacity 0.15s; opacity: 0.92; }
+      .actions .pending { font-size: 12px; color: var(--warn-ink); background: var(--warn-bg); border: 1px solid var(--warn-border); border-radius: 999px; padding: 2px 9px; }
+      .actions.dirty button.primary { box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.25); }
+      .actions .live-toggle { margin-left: auto; height: auto; font-size: 12px; color: var(--muted); }
+
+      .hint { font-size: 12px; color: var(--muted); }
+
+      /* ---------- android card ---------- */
+      @media (min-width: 720px) {
+        .card.wide { grid-column: 1 / -1; }
+      }
+
+      .buckets { gap: 6px 14px; }
+
+      .tables {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+        gap: 12px 20px;
+        margin-top: 12px;
+        min-width: 0;
+      }
+
+      .tables > div { min-width: 0; overflow-x: auto; }
+
+      .tables .hint { margin: 0 0 4px; }
+
+      table.mini {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+        font-variant-numeric: tabular-nums;
+      }
+
+      table.mini th, table.mini td {
+        padding: 3px 6px;
+        border-bottom: 1px solid var(--border);
+        text-align: left;
+        white-space: nowrap;
+      }
+
+      table.mini th { font-weight: 600; color: var(--muted); }
+      table.mini td.ok { color: var(--accent); }
+      table.mini td.warn { color: var(--danger-ink); font-weight: 600; }
+
+      /* ---------- guides ---------- */
+      .stage { position: relative; width: fit-content; max-width: 100%; margin: 0 auto; }
+      .stage img { margin: 0; }
+
+      .overlay {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        pointer-events: none;
+      }
+
+      svg.overlay { top: 0; height: 100%; }
+
+      .overlay.band { background: rgba(217, 119, 6, 0.28); border: 1px dashed #d97706; box-sizing: border-box; }
+      .cell-guide { fill: none; stroke: #0f766e; stroke-width: 0.4; stroke-dasharray: 1.2 0.8; vector-effect: non-scaling-stroke; }
+      .cell-guide-label { fill: #0f766e; font: 600 4px system-ui, sans-serif; paint-order: stroke; stroke: #fff; stroke-width: 0.6; }
+      .cell-guide-empty { fill: #6b6660; font: 3px system-ui, sans-serif; text-anchor: middle; }
+
+      /* ---------- collage card ---------- */
+      .tgallery { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+      .tchip {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 4px 9px 4px 5px; border: 1px solid var(--border); border-radius: 8px;
+        background: var(--surface); color: var(--muted); text-decoration: none; font-size: 12px;
+      }
+      .tchip.active { border-color: var(--accent); color: var(--text); box-shadow: inset 0 0 0 1px var(--accent); }
+      .tsketch { width: 30px; height: 22px; display: block; }
+      .tsketch rect { fill: #d9d6cf; stroke: var(--surface); stroke-width: 4; }
+      .tchip.active .tsketch rect { fill: var(--accent); }
+      .cell-grid {
+        position: relative; width: min(100%, calc(360px * var(--ar))); max-height: 360px; margin: 8px auto 0;
+        border: 1px dashed var(--border); border-radius: 8px; background: var(--bg); overflow: hidden;
+      }
+      .cell-box { position: absolute; padding: 3px; box-sizing: border-box; }
+      .cell-box .inner {
+        height: 100%; display: flex; flex-direction: column; justify-content: center; gap: 3px;
+        padding: 4px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); min-width: 0;
+      }
+      .cell-box .cell-no { font-size: 11px; font-weight: 600; color: var(--muted); }
+      .cell-box select { height: 26px; padding: 0 4px; font-size: 12px; min-width: 0; }
+      .cell-box.filled .inner { border-color: var(--accent); }
+      .cell-box .nudge { display: flex; gap: 3px; }
+      .cell-box .nudge input { width: 50%; min-width: 0; height: 24px; padding: 0 4px; font-size: 11px; }
+      .overlay.band.top { top: 0; }
+      .overlay.band.bottom { bottom: 0; }
+
+      .overlay-legend { margin: 10px 0 0; font-size: 12px; color: var(--muted); text-align: center; }
+
+      .swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: middle; }
+      .swatch.teal { background: #0f766e; }
+      .swatch.amber { background: #d97706; }
+
+      .guides { position: absolute; inset: 0; pointer-events: none; }
+      .guide { position: absolute; box-sizing: border-box; }
+      .guide.status { top: 0; left: 0; right: 0; height: 24px; background: rgba(15, 118, 110, 0.45); border-bottom: 1px dashed #0f766e; }
+      .guide.nav { bottom: 0; left: 0; right: 0; height: 48px; background: rgba(15, 118, 110, 0.45); border-top: 1px dashed #0f766e; }
+      .guide.nav.landscape { height: 48px; }
+      .guide.cutout { background: rgba(28, 25, 23, 0.85); }
+      .guide.cutout.notch { top: 0; left: 50%; width: 160px; height: 32px; margin-left: -80px; border-radius: 0 0 18px 18px; }
+      .guide.cutout.pill { top: 10px; left: 50%; width: 120px; height: 34px; margin-left: -60px; border-radius: 17px; }
+      .guide.cutout.punch { top: 10px; left: 50%; width: 22px; height: 22px; margin-left: -11px; border-radius: 50%; }
+
+      .slider {
+        display: block;
+        margin-top: 12px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .slider output { color: var(--text); font-variant-numeric: tabular-nums; }
+      .tone-scale { height: 10px; border-radius: 5px; margin-top: 4px; border: 1px solid var(--border); }
+
+      .slider input[type="range"] {
+        display: block;
+        width: 100%;
+        margin: 6px 0 0;
+        accent-color: var(--accent);
+      }
+    </style>
+  </head>
+  <body class="mobile">
+    
+    <main>
+      <!-- header:start -->
+      <div class="top">
+        <h1 class="brand">Sharp Viewer</h1>
+        <nav class="mode-switch" aria-label="Preview mode"><a class="" href="/?wm=1&amp;wmWidth=20%25&amp;device=iphone-13&amp;orientation=portrait">Desktop</a><a class="active" href="/?wm=1&amp;wmWidth=20%25&amp;view=mobile&amp;device=iphone-13&amp;orientation=portrait" aria-current="page">Mobile</a><a class="" href="/?wm=1&amp;wmWidth=20%25&amp;view=context&amp;device=iphone-13&amp;orientation=portrait">In context</a></nav>
+        <a class="spec-link" href="/guide" title="Non-technical user guide (USER_GUIDE.md)">Guide</a>
+        <a class="spec-link" href="/spec" title="Project specification (SPEC.md)">Spec</a>
+      </div>
+      
+      <!-- header:end -->
+
+      <div class="preview">
+        <section class="device-preview" aria-label="Mobile preview">
+        <div class="device-frame-box" style="width:390px;height:664px">
+          <div class="device-frame portrait" style="width:390px;height:664px;transform:scale(1.0000)">
+            <iframe title="iPhone 13 preview" src="/?wm=1&amp;wmWidth=20%25&amp;embed=image" width="390" height="664"></iframe><div class="guides" aria-hidden="true">
+              <div class="guide status" title="Status bar - 24 dp"></div><div class="guide cutout notch" title="Display cutout (notch)"></div>
+              <div class="guide nav" title="Navigation bar - 48 dp"></div>
+            </div>
+          </div>
+        </div>
+        <div class="device-controls">
+          <a class="nav" href="/?wm=1&amp;wmWidth=20%25&amp;view=mobile&amp;device=iphone-se&amp;orientation=portrait" rel="prev" aria-label="Previous device: iPhone SE">&#8249; Prev</a>
+          <span class="device-caption"><strong>iPhone 13</strong> &middot; 390&times;664 &middot; @3x &middot; iOS &middot; portrait</span>
+          <a class="nav" href="/?wm=1&amp;wmWidth=20%25&amp;view=mobile&amp;device=iphone-14-pro-max&amp;orientation=portrait" rel="next" aria-label="Next device: iPhone 14 Pro Max">Next &#8250;</a>
+          <a class="orientation" href="/?wm=1&amp;wmWidth=20%25&amp;view=mobile&amp;device=iphone-13&amp;orientation=landscape">Rotate to landscape</a>
+        </div>
+        <div class="device-chips"><span class="platform">iOS</span><a class="chip" href="/?wm=1&amp;wmWidth=20%25&amp;view=mobile&amp;device=iphone-se&amp;orientation=portrait" title="iPhone SE - 320x568 @2x">iPhone SE</a><a class="chip active" href="/?wm=1&amp;wmWidth=20%25&amp;view=mobile&amp;device=iphone-13&amp;orientation=portrait" title="iPhone 13 - 390x664 @3x" aria-current="true">iPhone 13</a><a class="chip" href="/?wm=1&amp;wmWidth=20%25&amp;view=mobile&amp;device=iphone-14-pro-max&amp;orientation=portrait" title="iPhone 14 Pro Max - 430x740 @3x">iPhone 14 Pro Max</a><a class="chip" href="/?wm=1&amp;wmWidth=20%25&amp;view=mobile&amp;device=ipad-mini&amp;orientation=portrait" title="iPad Mini - 768x1024 @2x">iPad Mini</a><a class="chip" href="/?wm=1&amp;wmWidth=20%25&amp;view=mobile&amp;device=ipad-pro-11&amp;orientation=portrait" title="iPad Pro 11 - 834x1194 @2x">iPad Pro 11</a><span class="platform">Android</span><a class="chip" href="/?wm=1&amp;wmWidth=20%25&amp;view=mobile&amp;device=galaxy-s9-plus&amp;orientation=portrait" title="Galaxy S9+ - 320x658 @4.5x">Galaxy S9+</a><a class="chip" href="/?wm=1&amp;wmWidth=20%25&amp;view=mobile&amp;device=galaxy-s24&amp;orientation=portrait" title="Galaxy S24 - 360x780 @3x">Galaxy S24</a><a class="chip" href="/?wm=1&amp;wmWidth=20%25&amp;view=mobile&amp;device=pixel-5&amp;orientation=portrait" title="Pixel 5 - 393x727 @2.75x">Pixel 5</a><a class="chip" href="/?wm=1&amp;wmWidth=20%25&amp;view=mobile&amp;device=pixel-7&amp;orientation=portrait" title="Pixel 7 - 412x839 @2.625x">Pixel 7</a><a class="chip" href="/?wm=1&amp;wmWidth=20%25&amp;view=mobile&amp;device=galaxy-tab-s4&amp;orientation=portrait" title="Galaxy Tab S4 - 712x1138 @2.25x">Galaxy Tab S4</a></div>
+        <p class="device-note">390&times;664 CSS px &middot; <a href="/?wm=1&amp;wmWidth=20%25&amp;embed=image" target="_blank" rel="noopener">open this view in a new tab</a></p>
+      </section>
+        
+      </div>
+
+      <!-- controls:start -->
+      <div class="controls">
+        <section class="card" aria-labelledby="h-image">
+          <h2 id="h-image">Image</h2>
+          <p class="context">sample.png &middot; 960&times;640 &middot; PNG &middot; built-in sample</p>
+          <div class="fields">
+            <label class="wide">Source
+              <select name="image" form="settings"><optgroup label="Built-in"><option value="sample" selected>sample.png</option><option value="thumb">thumb.png (stock)</option><option value="photo">photo.jpg (stock)</option><option value="fhd">fhd.jpg (stock)</option><option value="portrait">portrait.webp (stock)</option><option value="panorama">panorama.png (stock)</option></optgroup></select>
+            </label>
+          </div>
+          <form method="post" action="/upload" enctype="multipart/form-data" class="row">
+            <input type="file" name="file" accept="image/png,image/jpeg,image/webp,image/gif,image/tiff,image/avif" required>
+            <button type="submit">Upload</button>
+            <input type="hidden" name="wm" value="1"><input type="hidden" name="wmWidth" value="20%"><input type="hidden" name="view" value="mobile"><input type="hidden" name="device" value="iphone-13"><input type="hidden" name="guides" value="1"><input type="hidden" name="orientation" value="portrait">
+          </form>
+          
+          <p class="hint">PNG, JPEG, WebP, GIF, TIFF or AVIF, up to 25 MB and 8192 px per side. Phone photos are auto-rotated.</p>
+        </section>
+
+        <section class="card" aria-labelledby="h-wm">
+          <h2 id="h-wm">Watermark</h2>
+          <p class="context wm-status">"SHARP VIEWER" (stock) &middot; 192&times;17 px on this image</p>
+          <form method="post" action="/watermark" class="row first wm-text">
+            <div class="field" style="flex: 1 1 180px">Text
+              <input type="text" name="text" maxlength="80" required value="SHARP VIEWER" placeholder="e.g. MY BRAND">
+            </div>
+            <button type="submit" name="action" value="set" style="align-self: end">Set text</button>
+            
+            <input type="hidden" name="wm" value="1"><input type="hidden" name="wmWidth" value="20%"><input type="hidden" name="view" value="mobile"><input type="hidden" name="device" value="iphone-13"><input type="hidden" name="guides" value="1"><input type="hidden" name="orientation" value="portrait">
+          </form>
+          <label class="check" style="margin-top: 12px"><input type="checkbox" name="wm" value="1" form="settings" checked> Show watermark</label>
+          <div class="fields" style="margin-top: 8px">
+            <label>Width (px or %)<input type="text" inputmode="decimal" name="wmWidth" form="settings" placeholder="200 or 20%" value="20%"></label>
+            <label>Height (px or %)<input type="text" inputmode="decimal" name="wmHeight" form="settings" placeholder="auto" value=""></label>
+            <label>Opacity (%)<input type="number" name="wmOpacity" form="settings" min="0" max="100" value="70"></label>
+          </div>
+          <label class="check" style="margin-top: 10px"><input type="checkbox" name="wmToneOn" value="1" form="settings" > Green tone (recolour the mark for light or dark backgrounds)</label>
+          <label class="slider">Tone: light &rarr; dark green <output>50</output>
+            <input type="range" name="wmTone" form="settings" min="0" max="100" step="1" value="50" aria-label="Green tone, 0 light to 100 dark">
+          </label>
+          <div class="tone-scale" style="background: linear-gradient(90deg, #cef3e2, #124930)" aria-hidden="true"></div>
+        </section>
+
+        <section class="card" aria-labelledby="h-enh">
+          <h2 id="h-enh">Enhance</h2>
+          <p class="context">Sharpen off &middot; Grayscale off &middot; Square corners</p>
+          <div class="row first">
+            <label class="check"><input type="checkbox" name="sharpen" value="1" form="settings" > Sharpen</label>
+            <label class="check"><input type="checkbox" name="grayscale" value="1" form="settings" > Grayscale</label>
+          </div>
+          <label class="slider">Rounded corners <output>0</output>
+            <input type="range" name="corners" form="settings" min="0" max="100" step="1" value="0" aria-label="Rounded corners, 0 to 100">
+          </label>
+          <p class="hint">0 = square, 100 = maximum (half of the shorter side: a pill, or a circle for a square image). Applied last, so it clips the watermark too.</p>
+        </section>
+
+        <section class="card" aria-labelledby="h-pos">
+          <h2 id="h-pos">Watermark position</h2>
+          <p class="context">Anchored bottom-right. Traverse in px: +X right, -X left, +Y down, -Y up.</p>
+          <div class="fields">
+            <label>Margin (px)<input type="number" name="wmMargin" form="settings" min="0" max="4096" placeholder="auto: 16" value="" title="Blank = automatic (16 px, or centred in a collage's gutter band)"></label>
+            <label>traverseX<input type="number" name="traverseX" form="settings" min="-4096" max="4096" value="0"></label>
+            <label>traverseY<input type="number" name="traverseY" form="settings" min="-4096" max="4096" value="0"></label>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="h-out">
+          <h2 id="h-out">Output</h2>
+          <p class="context">Resize keeps the aspect ratio when only one side is set. Rotation is applied before resizing.</p>
+          <div class="fields">
+            <label>Width (px)<input type="number" name="width" form="settings" min="1" max="4096" placeholder="960" value=""></label>
+            <label>Height (px)<input type="number" name="height" form="settings" min="1" max="4096" placeholder="640" value=""></label>
+            <label>Rotate<select name="rotate" form="settings"><option value="0" selected>0&deg;</option><option value="90" >90&deg;</option><option value="180" >180&deg;</option><option value="270" >270&deg;</option></select></label>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="h-exp">
+          <h2 id="h-exp">Export</h2>
+          <p class="context">960&times;640 &middot; PNG</p>
+          <div class="fields">
+            <label class="wide">Platform preset (also applied to the preview)
+              <select name="preset" form="settings"><option value="none" selected>None (keep size / Output card)</option><optgroup label="Instagram"><option value="ig-square">Instagram post (square) &middot; 1080&times;1080</option><option value="ig-portrait">Instagram post (portrait) &middot; 1080&times;1350</option><option value="ig-story">Instagram story / Reel cover &middot; 1080&times;1920</option><option value="ig-landscape">Instagram post (landscape) &middot; 1080&times;566</option></optgroup><optgroup label="Facebook"><option value="fb-post">Facebook link / post &middot; 1200&times;630</option></optgroup><optgroup label="X"><option value="x-post">X post &middot; 1600&times;900</option><option value="x-header">X header &middot; 1500&times;500</option></optgroup><optgroup label="LinkedIn"><option value="li-post">LinkedIn post &middot; 1200&times;627</option></optgroup><optgroup label="YouTube"><option value="yt-thumb">YouTube thumbnail &middot; 1280&times;720</option></optgroup><optgroup label="Pinterest"><option value="pin">Pinterest pin &middot; 1000&times;1500</option></optgroup></select>
+            </label>
+            <label>Fit<select name="fit" form="settings"><option value="cover" selected>Cover (crop to fill)</option><option value="contain" >Contain (pad)</option></select></label>
+            <label>Background<input type="text" name="bg" form="settings" value="#ffffff" pattern="#[0-9a-fA-F]{6}" placeholder="#ffffff"></label>
+            <label>Format<select name="format" form="settings"><option value="png" selected>PNG</option><option value="jpeg" >JPEG</option><option value="webp" >WebP</option></select></label>
+            <label>Quality (JPEG/WebP)<input type="number" name="quality" form="settings" min="1" max="100" value="82"></label>
+            <label>Max size (KB)<input type="number" name="maxKB" form="settings" min="1" max="50000" placeholder="none" value=""></label>
+          </div>
+          <div class="row">
+            <a class="button-link" href="/export?wm=1&amp;wmWidth=20%25"  download>Download</a>
+            <span class="hint">Apply first, then download. Metadata is stripped; the background fills padding and JPEG corners.</span>
+          </div>
+        </section>
+
+        <section class="card wide" aria-labelledby="h-and">
+          <h2 id="h-and">Android</h2>
+          <p class="context">image &middot; 360 dp &middot; 360/540/720/1080/1440 px &middot; PNG &middot; <strong>2 of 5 buckets upscaled</strong></p>
+          
+          <div class="fields">
+            <label>Mode<select name="androidMode" form="settings"><option value="drawable" selected>Drawable (image asset)</option><option value="icon" >Launcher icon (adaptive + legacy)</option></select></label>
+            <label>Resource name<input type="text" name="androidName" form="settings" value="" placeholder="sample" pattern="[a-z][a-z0-9_]*" title="lowercase letters, digits, underscores"></label>
+            <label>Width (dp)<input type="number" name="dp" form="settings" min="1" max="4096" placeholder="360" value=""></label>
+            <label>Height (dp, optional)<input type="number" name="dpHeight" form="settings" min="1" max="4096" placeholder="auto" value=""></label>
+            <label>Format<select name="androidFormat" form="settings"><option value="png" selected>PNG</option><option value="webp" >WebP (lossless)</option></select></label>
+          </div>
+          <div class="row buckets"><label class="check"><input type="checkbox" name="buckets" value="mdpi" form="settings" checked> mdpi <span class="hint">1&times;</span></label><label class="check"><input type="checkbox" name="buckets" value="hdpi" form="settings" checked> hdpi <span class="hint">1.5&times;</span></label><label class="check"><input type="checkbox" name="buckets" value="xhdpi" form="settings" checked> xhdpi <span class="hint">2&times;</span></label><label class="check"><input type="checkbox" name="buckets" value="xxhdpi" form="settings" checked> xxhdpi <span class="hint">3&times;</span></label><label class="check"><input type="checkbox" name="buckets" value="xxxhdpi" form="settings" checked> xxxhdpi <span class="hint">4&times;</span></label><label class="check"><input type="checkbox" name="nodpi" value="1" form="settings" > nodpi</label></div>
+          <div class="tables">
+            <div><p class="hint">Density buckets</p><table class="mini"><thead><tr><th>Bucket</th><th>Scale</th><th>Output px</th><th>Verdict</th></tr></thead><tbody><tr><td>mdpi</td><td>1&times;</td><td>360&times;240</td><td class="ok">OK</td></tr><tr><td>hdpi</td><td>1.5&times;</td><td>540&times;360</td><td class="ok">OK</td></tr><tr><td>xhdpi</td><td>2&times;</td><td>720&times;480</td><td class="ok">OK</td></tr><tr><td>xxhdpi</td><td>3&times;</td><td>1080&times;720</td><td class="warn">upscaled ×1.1</td></tr><tr><td>xxxhdpi</td><td>4&times;</td><td>1440&times;960</td><td class="warn">upscaled ×1.5</td></tr></tbody></table></div>
+            <div><p class="hint">Per device (bucket Android picks for its DPR)</p><table class="mini"><thead><tr><th>Device</th><th>DPR</th><th>Bucket</th><th>Needs px</th><th>Verdict</th></tr></thead><tbody><tr><td>iPhone SE</td><td>2</td><td>xhdpi</td><td>720&times;480</td><td class="ok">OK</td></tr><tr><td>iPhone 13</td><td>3</td><td>xxhdpi</td><td>1080&times;720</td><td class="warn">upscaled ×1.1</td></tr><tr><td>iPhone 14 Pro Max</td><td>3</td><td>xxhdpi</td><td>1080&times;720</td><td class="warn">upscaled ×1.1</td></tr><tr><td>iPad Mini</td><td>2</td><td>xhdpi</td><td>720&times;480</td><td class="ok">OK</td></tr><tr><td>iPad Pro 11</td><td>2</td><td>xhdpi</td><td>720&times;480</td><td class="ok">OK</td></tr><tr><td>Galaxy S9+</td><td>4.5</td><td>xxxhdpi</td><td>1440&times;960</td><td class="warn">upscaled ×1.5</td></tr><tr><td>Galaxy S24</td><td>3</td><td>xxhdpi</td><td>1080&times;720</td><td class="warn">upscaled ×1.1</td></tr><tr><td>Pixel 5</td><td>2.75</td><td>xxhdpi</td><td>1080&times;720</td><td class="warn">upscaled ×1.1</td></tr><tr><td>Pixel 7</td><td>2.625</td><td>xxhdpi</td><td>1080&times;720</td><td class="warn">upscaled ×1.1</td></tr><tr><td>Galaxy Tab S4</td><td>2.25</td><td>xxhdpi</td><td>1080&times;720</td><td class="warn">upscaled ×1.1</td></tr></tbody></table></div>
+          </div>
+          <div class="row">
+            <a class="button-link" href="/android.zip?wm=1&amp;wmWidth=20%25"  download>Download ZIP</a>
+            <label class="check"><input type="checkbox" name="guides" value="1" form="settings" checked> Show guides (system bars, cut-outs, icon safe zone, story keep-clear)</label>
+            <span class="hint">Apply first. Icon mode previews the adaptive icon above; with a preset/height the Export fit applies per bucket.</span>
+          </div>
+        </section>
+
+        <section class="card wide" aria-labelledby="h-col">
+          <h2 id="h-col">Collage</h2>
+          <p class="context">Single image &middot; pick a template to build a collage</p>
+          <div class="fields">
+            <label class="wide">Template (the canvas is the preset, or Width x Height, or 1080x1080)
+              <select name="layout" form="settings"><option value="none" selected>None (single image)</option><option value="grid-2x2">Grid 2 x 2 &middot; 4 cells</option><option value="grid-3x3">Grid 3 x 3 &middot; 9 cells</option><option value="split-h">Split left / right &middot; 2 cells</option><option value="split-v">Split top / bottom &middot; 2 cells</option><option value="hero-3">Hero left + 2 stacked &middot; 3 cells</option><option value="hero-4">Hero top + 3 below &middot; 4 cells</option><option value="strip-3">Strip of 3 &middot; 3 cells</option><option value="strip-4">Strip of 4 &middot; 4 cells</option><option value="story-3">3 stacked rows &middot; 3 cells</option><option value="screens-2">2 phone screens &middot; 2 cells</option><option value="screens-3">3 phone screens &middot; 3 cells</option></select>
+            </label>
+          </div>
+          <div class="tgallery" aria-label="Template gallery"><a class="tchip active" href="/?wm=1&amp;wmWidth=20%25" aria-current="true" title="single image"><svg class="tsketch" viewBox="0 0 30 22" aria-hidden="true"><rect x="0" y="0" width="30" height="22"/></svg>None</a><a class="tchip" href="/?wm=1&amp;wmWidth=20%25&amp;layout=grid-2x2" title="4 cells"><svg class="tsketch" viewBox="0 0 30 22" aria-hidden="true"><rect x="0.0" y="0.0" width="15.0" height="11.0"/><rect x="15.0" y="0.0" width="15.0" height="11.0"/><rect x="0.0" y="11.0" width="15.0" height="11.0"/><rect x="15.0" y="11.0" width="15.0" height="11.0"/></svg>Grid 2 x 2</a><a class="tchip" href="/?wm=1&amp;wmWidth=20%25&amp;layout=grid-3x3" title="9 cells"><svg class="tsketch" viewBox="0 0 30 22" aria-hidden="true"><rect x="0.0" y="0.0" width="10.0" height="7.3"/><rect x="10.0" y="0.0" width="10.0" height="7.3"/><rect x="20.0" y="0.0" width="10.0" height="7.3"/><rect x="0.0" y="7.3" width="10.0" height="7.3"/><rect x="10.0" y="7.3" width="10.0" height="7.3"/><rect x="20.0" y="7.3" width="10.0" height="7.3"/><rect x="0.0" y="14.7" width="10.0" height="7.3"/><rect x="10.0" y="14.7" width="10.0" height="7.3"/><rect x="20.0" y="14.7" width="10.0" height="7.3"/></svg>Grid 3 x 3</a><a class="tchip" href="/?wm=1&amp;wmWidth=20%25&amp;layout=split-h" title="2 cells"><svg class="tsketch" viewBox="0 0 30 22" aria-hidden="true"><rect x="0.0" y="0.0" width="15.0" height="22.0"/><rect x="15.0" y="0.0" width="15.0" height="22.0"/></svg>Split left / right</a><a class="tchip" href="/?wm=1&amp;wmWidth=20%25&amp;layout=split-v" title="2 cells"><svg class="tsketch" viewBox="0 0 30 22" aria-hidden="true"><rect x="0.0" y="0.0" width="30.0" height="11.0"/><rect x="0.0" y="11.0" width="30.0" height="11.0"/></svg>Split top / bottom</a><a class="tchip" href="/?wm=1&amp;wmWidth=20%25&amp;layout=hero-3" title="3 cells"><svg class="tsketch" viewBox="0 0 30 22" aria-hidden="true"><rect x="0.0" y="0.0" width="20.0" height="22.0"/><rect x="20.0" y="0.0" width="10.0" height="11.0"/><rect x="20.0" y="11.0" width="10.0" height="11.0"/></svg>Hero left + 2 stacked</a><a class="tchip" href="/?wm=1&amp;wmWidth=20%25&amp;layout=hero-4" title="4 cells"><svg class="tsketch" viewBox="0 0 30 22" aria-hidden="true"><rect x="0.0" y="0.0" width="30.0" height="14.7"/><rect x="0.0" y="14.7" width="10.0" height="7.3"/><rect x="10.0" y="14.7" width="10.0" height="7.3"/><rect x="20.0" y="14.7" width="10.0" height="7.3"/></svg>Hero top + 3 below</a><a class="tchip" href="/?wm=1&amp;wmWidth=20%25&amp;layout=strip-3" title="3 cells"><svg class="tsketch" viewBox="0 0 30 22" aria-hidden="true"><rect x="0.0" y="0.0" width="10.0" height="22.0"/><rect x="10.0" y="0.0" width="10.0" height="22.0"/><rect x="20.0" y="0.0" width="10.0" height="22.0"/></svg>Strip of 3</a><a class="tchip" href="/?wm=1&amp;wmWidth=20%25&amp;layout=strip-4" title="4 cells"><svg class="tsketch" viewBox="0 0 30 22" aria-hidden="true"><rect x="0.0" y="0.0" width="7.5" height="22.0"/><rect x="7.5" y="0.0" width="7.5" height="22.0"/><rect x="15.0" y="0.0" width="7.5" height="22.0"/><rect x="22.5" y="0.0" width="7.5" height="22.0"/></svg>Strip of 4</a><a class="tchip" href="/?wm=1&amp;wmWidth=20%25&amp;layout=story-3" title="3 cells"><svg class="tsketch" viewBox="0 0 30 22" aria-hidden="true"><rect x="0.0" y="0.0" width="30.0" height="7.3"/><rect x="0.0" y="7.3" width="30.0" height="7.3"/><rect x="0.0" y="14.7" width="30.0" height="7.3"/></svg>3 stacked rows</a><a class="tchip" href="/?wm=1&amp;wmWidth=20%25&amp;layout=screens-2" title="2 cells"><svg class="tsketch" viewBox="0 0 30 22" aria-hidden="true"><rect x="2.0" y="0.0" width="12.0" height="22.0"/><rect x="16.0" y="0.0" width="12.0" height="22.0"/></svg>2 phone screens</a><a class="tchip" href="/?wm=1&amp;wmWidth=20%25&amp;layout=screens-3" title="3 cells"><svg class="tsketch" viewBox="0 0 30 22" aria-hidden="true"><rect x="1.1" y="0.0" width="8.6" height="22.0"/><rect x="10.7" y="0.0" width="8.6" height="22.0"/><rect x="20.4" y="0.0" width="8.6" height="22.0"/></svg>3 phone screens</a></div>
+          <p class="hint">Cells, laid out like the template. Per cell: Source, Fit, and a crop nudge (X, Y in px; + shows more of the right / bottom; cover cells only). Empty cells show the Background colour.</p>
+          <div class="cell-grid" style="aspect-ratio: 1080 / 1080; --ar: 1.0000"><div class="cell-box filled" style="left:0%;top:0%;width:50%;height:50%"><div class="inner"><span class="cell-no">1</span><select name="cells" form="settings" aria-label="Cell 1 source"><option value="">empty (background)</option><option value="sample" selected>sample.png</option><option value="thumb">thumb.png (stock)</option><option value="photo">photo.jpg (stock)</option><option value="fhd">fhd.jpg (stock)</option><option value="portrait">portrait.webp (stock)</option><option value="panorama">panorama.png (stock)</option></select><select name="cellFit" form="settings" aria-label="Cell 1 fit"><option value="cover" selected>Cover</option><option value="contain">Contain</option></select><span class="nudge"><input type="number" name="cellX" form="settings" aria-label="Cell 1 nudge X" min="-4096" max="4096" value="0" title="Nudge the crop window (+ shows more of the right; cover cells only)"><input type="number" name="cellY" form="settings" aria-label="Cell 1 nudge Y" min="-4096" max="4096" value="0" title="Nudge the crop window (+ shows more of the bottom; cover cells only)"></span></div></div><div class="cell-box" style="left:50%;top:0%;width:50%;height:50%"><div class="inner"><span class="cell-no">2</span><select name="cells" form="settings" aria-label="Cell 2 source"><option value="" selected>empty (background)</option><option value="sample">sample.png</option><option value="thumb">thumb.png (stock)</option><option value="photo">photo.jpg (stock)</option><option value="fhd">fhd.jpg (stock)</option><option value="portrait">portrait.webp (stock)</option><option value="panorama">panorama.png (stock)</option></select><select name="cellFit" form="settings" aria-label="Cell 2 fit"><option value="cover" selected>Cover</option><option value="contain">Contain</option></select><span class="nudge"><input type="number" name="cellX" form="settings" aria-label="Cell 2 nudge X" min="-4096" max="4096" value="0" title="Nudge the crop window (+ shows more of the right; cover cells only)"><input type="number" name="cellY" form="settings" aria-label="Cell 2 nudge Y" min="-4096" max="4096" value="0" title="Nudge the crop window (+ shows more of the bottom; cover cells only)"></span></div></div><div class="cell-box" style="left:0%;top:50%;width:50%;height:50%"><div class="inner"><span class="cell-no">3</span><select name="cells" form="settings" aria-label="Cell 3 source"><option value="" selected>empty (background)</option><option value="sample">sample.png</option><option value="thumb">thumb.png (stock)</option><option value="photo">photo.jpg (stock)</option><option value="fhd">fhd.jpg (stock)</option><option value="portrait">portrait.webp (stock)</option><option value="panorama">panorama.png (stock)</option></select><select name="cellFit" form="settings" aria-label="Cell 3 fit"><option value="cover" selected>Cover</option><option value="contain">Contain</option></select><span class="nudge"><input type="number" name="cellX" form="settings" aria-label="Cell 3 nudge X" min="-4096" max="4096" value="0" title="Nudge the crop window (+ shows more of the right; cover cells only)"><input type="number" name="cellY" form="settings" aria-label="Cell 3 nudge Y" min="-4096" max="4096" value="0" title="Nudge the crop window (+ shows more of the bottom; cover cells only)"></span></div></div><div class="cell-box" style="left:50%;top:50%;width:50%;height:50%"><div class="inner"><span class="cell-no">4</span><select name="cells" form="settings" aria-label="Cell 4 source"><option value="" selected>empty (background)</option><option value="sample">sample.png</option><option value="thumb">thumb.png (stock)</option><option value="photo">photo.jpg (stock)</option><option value="fhd">fhd.jpg (stock)</option><option value="portrait">portrait.webp (stock)</option><option value="panorama">panorama.png (stock)</option></select><select name="cellFit" form="settings" aria-label="Cell 4 fit"><option value="cover" selected>Cover</option><option value="contain">Contain</option></select><span class="nudge"><input type="number" name="cellX" form="settings" aria-label="Cell 4 nudge X" min="-4096" max="4096" value="0" title="Nudge the crop window (+ shows more of the right; cover cells only)"><input type="number" name="cellY" form="settings" aria-label="Cell 4 nudge Y" min="-4096" max="4096" value="0" title="Nudge the crop window (+ shows more of the bottom; cover cells only)"></span></div></div></div>
+          <div class="fields" style="margin-top: 10px">
+            <label>Gutter (px or %)<input type="text" inputmode="decimal" name="gutter" form="settings" placeholder="2%" value="2%"></label>
+            <label>Cell corners (0-100)<input type="number" name="cellCorners" form="settings" min="0" max="100" value="0"></label>
+          </div>
+          <p class="hint">Rotation does not apply to a collage; sharpen, grayscale, watermark, rounded corners, export and Android all work on the finished collage. Without a Margin of your own, the watermark is centred in the gutter band when it fits there. Tick "Show guides" to see numbered cell outlines.</p>
+        </section>
+      </div>
+
+      <form id="settings" method="get" action="/" class="actions">
+        <!-- Values actually applied to the image above; used to keep the mark in place if a new value is out of bounds. -->
+        <input type="hidden" name="appliedTraverseX" value="0">
+        <input type="hidden" name="appliedTraverseY" value="0">
+        <input type="hidden" name="view" value="mobile"><input type="hidden" name="device" value="iphone-13"><input type="hidden" name="orientation" value="portrait">
+        <button type="submit" class="primary">Apply</button>
+        <span class="pending" hidden>Unapplied changes</span>
+        <span class="busy" hidden>Updating&hellip;</span>
+        <a class="link" href="/?view=mobile&amp;device=iphone-13&amp;orientation=portrait">Reset</a>
+        <a class="link" href="/image?wm=1&amp;wmWidth=20%25">Open image only</a>
+        <label class="check live-toggle"><input type="checkbox" id="live-toggle" checked> Update as I change settings</label>
+      </form>
+      <!-- controls:end -->
+    </main>
+    <!-- script:start -->
+    <script nonce="<nonce>">
+      // Progressive enhancement (spec 4g/4l). Without this script the page works via the Apply button.
+      (function () {
+        var hide = function (toast) {
+          if (!toast || toast.classList.contains("hide")) return;
+          toast.classList.add("hide");
+          setTimeout(function () { toast.remove(); }, 300);
+        };
+        // Toasts: close on click (delegated), auto-dismiss 6 s after they appear.
+        var armToasts = function (root) {
+          root.querySelectorAll(".toast").forEach(function (toast) {
+            if (toast.dataset.armed) return;
+            toast.dataset.armed = "1";
+            setTimeout(function () { hide(toast); }, 6000);
+          });
+        };
+        document.addEventListener("click", function (e) {
+          var btn = e.target.closest && e.target.closest(".toast-close");
+          if (btn) hide(btn.closest(".toast"));
+        });
+        armToasts(document);
+        // In-context feed: bring our post into view inside the scrolling scene (page scroll untouched).
+        var revealOurPost = function () {
+          var scene = document.querySelector(".scene-feed"), ours = scene && scene.querySelector(".post.ours");
+          if (scene && ours) scene.scrollTop = Math.max(0, ours.offsetTop - scene.offsetTop - (scene.clientHeight - ours.offsetHeight) / 2);
+        };
+        revealOurPost();
+        // Sliders: show their value while dragging (delegated, survives swaps).
+        document.addEventListener("input", function (e) {
+          var t = e.target;
+          if (t && t.type === "range" && t.closest(".slider")) t.closest(".slider").querySelector("output").value = t.value;
+        });
+
+        // ---- Live updates (4l): apply in place - fetch the page, pre-load the preview, swap changed regions.
+        var form = document.getElementById("settings");
+        if (!form || !document.getElementById("live-toggle")) return;
+        var LIVE_KEY = "sharp-viewer:live", SCROLL_KEY = "sharp-viewer:scroll", FOCUS_KEY = "sharp-viewer:focus";
+        var store = function (s, k, v) { try { if (v === null) s.removeItem(k); else s.setItem(k, v); } catch (e) {} };
+        var read = function (s, k) { try { return s.getItem(k); } catch (e) { return null; } };
+        var live = function () { return read(localStorage, LIVE_KEY) !== "0"; };
+        var toggleEl = function () { return document.getElementById("live-toggle"); };
+        var bar = function () { return document.getElementById("settings"); };
+        var syncToggle = function () { var t = toggleEl(); if (t) t.checked = live(); };
+        syncToggle();
+
+        // Fallback navigation support: restore scroll + focus saved before a real submit.
+        var y = read(sessionStorage, SCROLL_KEY);
+        if (y !== null) {
+          store(sessionStorage, SCROLL_KEY, null);
+          window.scrollTo(0, Number(y));
+          window.addEventListener("load", function () { window.scrollTo(0, Number(y)); });
+        }
+        var focusByKey = function (key) {
+          var parts = key.split("#"), els = document.getElementById("settings").elements[parts[0]];
+          var el = els && els.length !== undefined && !(els instanceof Element) ? els[Number(parts[1])] : els;
+          if (el && el.focus) { el.focus({ preventScroll: true }); }
+        };
+        var f = read(sessionStorage, FOCUS_KEY);
+        if (f !== null) { store(sessionStorage, FOCUS_KEY, null); focusByKey(f); }
+
+        var focusKey = function () {
+          var active = document.activeElement, frm = bar();
+          if (!active || active.form !== frm || !active.name) return null;
+          var same = frm.elements[active.name];
+          var index = same && same.length !== undefined && !(same instanceof Element) ? Array.prototype.indexOf.call(same, active) : 0;
+          return active.name + "#" + index;
+        };
+        var saveState = function () {
+          var k = focusKey();
+          if (k) store(sessionStorage, FOCUS_KEY, k);
+          store(sessionStorage, SCROLL_KEY, String(window.scrollY));
+        };
+        var fallback = function () { saveState(); var frm = bar(); if (frm.requestSubmit) frm.requestSubmit(); else frm.submit(); };
+
+        var setBusy = function (on) {
+          var main = document.querySelector("main"), b = bar();
+          if (main) { if (on) main.setAttribute("aria-busy", "true"); else main.removeAttribute("aria-busy"); }
+          var busy = b && b.querySelector(".busy");
+          if (busy) busy.hidden = !on;
+        };
+
+        // Fields the user changed since the last render (value differs from the rendered default):
+        // they must survive a swap, or typing in field B while field A is being applied would be lost.
+        var dirtyFields = function (root) {
+          var out = [];
+          root.querySelectorAll("input, select, textarea").forEach(function (el) {
+            if (!el.name || el.type === "hidden") return;
+            var changed = el.type === "checkbox" || el.type === "radio" ? el.checked !== el.defaultChecked
+              : el.tagName === "SELECT" ? Array.prototype.some.call(el.options, function (o) { return o.selected !== o.defaultSelected; })
+              : el.value !== el.defaultValue;
+            if (!changed) return;
+            var same = root.querySelectorAll('[name="' + el.name + '"]');
+            out.push({ name: el.name, index: Array.prototype.indexOf.call(same, el), value: el.value, checked: el.checked });
+          });
+          return out;
+        };
+        var restoreDirty = function (root, list) {
+          list.forEach(function (d) {
+            var same = root.querySelectorAll('[name="' + d.name + '"]'), el = same[d.index];
+            if (!el) return;
+            if (el.type === "checkbox" || el.type === "radio") el.checked = d.checked; else el.value = d.value;
+          });
+        };
+        // Swap a region only when its HTML changed; keep focus and the user's pending edits inside it.
+        var swap = function (oldEl, newEl) {
+          if (!oldEl || !newEl || oldEl.outerHTML === newEl.outerHTML) return;
+          var key = focusKey();
+          var hadFocus = key && oldEl.contains(document.activeElement);
+          var dirty = dirtyFields(oldEl);
+          oldEl.replaceWith(newEl);
+          restoreDirty(newEl, dirty);
+          if (hadFocus) focusByKey(key);
+        };
+        var regionsOf = function (root) {
+          var list = [];
+          var top = root.querySelector(".top"); if (top) list.push(top);
+          root.querySelectorAll("main > .error").forEach(function (e) { list.push(e); });
+          var preview = root.querySelector(".preview"); if (preview) list.push(preview);
+          root.querySelectorAll(".controls > .card").forEach(function (c) { list.push(c); });
+          return list;
+        };
+        var applyDocument = function (doc, url, push) {
+          // Preview: wait for the new image before swapping so the old one never gives way to a blank frame.
+          var newImg = doc.querySelector(".preview img"), oldImg = document.querySelector(".preview img");
+          var pre = null;
+          var finish = function () {
+            var oldRegions = regionsOf(document), newRegions = regionsOf(doc);
+            // Header banner (.error) can appear/disappear: rebuild by position within <main>.
+            var main = document.querySelector("main"), newMain = doc.querySelector("main");
+            if (!main || !newMain) { fallback(); return; }
+            // Structural change (different region count or order) -> replace main's children wholesale.
+            var same = oldRegions.length === newRegions.length && oldRegions.every(function (el, i) { return el.className === newRegions[i].className; });
+            if (!same) {
+              var key = focusKey(), dirty = dirtyFields(main);
+              main.innerHTML = newMain.innerHTML;
+              restoreDirty(main, dirty);
+              if (key) focusByKey(key);
+            } else {
+              oldRegions.forEach(function (el, i) { swap(el, newRegions[i]); });
+              var oldBar = bar(), newBar = doc.getElementById("settings");
+              if (oldBar && newBar) {
+                // Keep the live toggle and the busy/pending state elements: swap the bar and re-sync.
+                swap(oldBar, newBar);
+                syncToggle();
+              }
+            }
+            var oldToasts = document.querySelector(".toasts"), newToasts = doc.querySelector(".toasts");
+            if (oldToasts) oldToasts.remove();
+            if (newToasts) { document.body.insertBefore(newToasts, document.body.firstChild); armToasts(document); }
+            // Use the pre-loaded element itself in the preview: a freshly parsed <img> reports
+            // complete=false for a frame even when its source is cached, which reads as a flicker.
+            var placed = document.querySelector(".preview img");
+            if (pre && placed && placed.getAttribute("src") === pre.getAttribute("src")) {
+              Array.prototype.forEach.call(placed.attributes, function (attr) { if (attr.name !== "src") pre.setAttribute(attr.name, attr.value); });
+              placed.replaceWith(pre);
+            }
+            document.body.className = doc.body.className;
+            if (push) history.pushState({ sharpViewer: true }, "", url);
+            setBusy(false);
+            revealOurPost();
+            var b = bar(); if (b) { b.classList.remove("dirty"); var p = b.querySelector(".pending"); if (p) p.hidden = true; }
+            if (queued) { var next = queued; queued = null; update(next.url, next.push); }
+          };
+          if (newImg && (!oldImg || newImg.getAttribute("src") !== oldImg.getAttribute("src"))) {
+            // Fetch AND decode the new preview before touching the DOM: a cached-but-undecoded image
+            // still costs a blank frame when its element is swapped in.
+            pre = new Image();
+            var ready = function () { if (pre.decode) { pre.decode().then(finish, finish); } else { finish(); } };
+            pre.onload = ready; pre.onerror = function () { pre = null; finish(); };
+            pre.src = newImg.getAttribute("src");
+          } else {
+            finish();
+          }
+        };
+        var inflight = false, queued = null;
+        var update = function (url, push) {
+          if (inflight) { queued = { url: url, push: push }; return; }
+          inflight = true; setBusy(true);
+          fetch(url, { headers: { Accept: "text/html" }, credentials: "same-origin" })
+            .then(function (r) { if (!r.ok || (r.headers.get("content-type") || "").indexOf("text/html") < 0) throw new Error("bad response"); return r.text(); })
+            .then(function (html) { inflight = false; applyDocument(new DOMParser().parseFromString(html, "text/html"), url, push); })
+            .catch(function () { inflight = false; setBusy(false); fallback(); });
+        };
+        var formUrl = function () {
+          var frm = bar(), q = new URLSearchParams(new FormData(frm)).toString();
+          return frm.getAttribute("action") + (q ? "?" + q : "");
+        };
+        // Submitting makes the current values the new baseline: only edits made *after* this are
+        // "pending" and preserved across the swap; the submitted ones take the server's answer
+        // (e.g. a clamped nudge comes back as the clamped value).
+        var commitBaseline = function (frm) {
+          Array.prototype.forEach.call(frm.elements, function (el) {
+            if (!el.name) return;
+            if (el.type === "checkbox" || el.type === "radio") el.defaultChecked = el.checked;
+            else if (el.tagName === "SELECT") Array.prototype.forEach.call(el.options, function (o) { o.defaultSelected = o.selected; });
+            else if (el.type !== "hidden") el.defaultValue = el.value;
+          });
+        };
+        var applyNow = function () { commitBaseline(bar()); update(formUrl(), true); };
+
+        var timer = null;
+        document.addEventListener("change", function (e) {
+          var t = e.target;
+          if (t && t.id === "live-toggle") {
+            store(localStorage, LIVE_KEY, t.checked ? "1" : "0");
+            if (t.checked && bar().classList.contains("dirty")) applyNow();
+            return;
+          }
+          if (!t || t.form !== bar() || !t.name) return;
+          if (!live()) { bar().classList.add("dirty"); var p = bar().querySelector(".pending"); if (p) p.hidden = false; return; }
+          if (timer) clearTimeout(timer);
+          timer = setTimeout(function () { timer = null; applyNow(); }, 250);
+        });
+        // Apply button / Enter: same in-place path.
+        document.addEventListener("submit", function (e) {
+          if (e.target !== bar()) return;
+          e.preventDefault();
+          if (timer) { clearTimeout(timer); timer = null; }
+          applyNow();
+        });
+        // Back / Forward: re-fetch the popped URL and swap.
+        window.addEventListener("popstate", function () { update(location.pathname + location.search, false); });
+        history.replaceState({ sharpViewer: true }, "", location.href);
+      })();
+    </script>
+    <!-- script:end -->
+  </body>
+</html>

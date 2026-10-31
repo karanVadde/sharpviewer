@@ -1,0 +1,11 @@
+{
+  "url": "/export?image=photo&preset=ig-square&format=jpeg&maxKB=60",
+  "status": 200,
+  "contentType": "image/jpeg",
+  "size": 61388,
+  "sha256": "981d898d8df67de23a31a0355281da61519274b8494f1f865ecf362165907968",
+  "headers": {
+    "content-disposition": "attachment; filename=\"photo-ig-square-1080x1080.jpg\"",
+    "x-export-quality": "57"
+  }
+}

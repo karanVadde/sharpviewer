@@ -1,0 +1,53 @@
+{
+  "url": "/android.zip?image=panorama&androidName=wide&dp=200&preset=ig-square&fit=contain&bg=%23123456&dpHeight=100&corners=20",
+  "status": 200,
+  "filename": "wide-android.zip",
+  "warnings": "",
+  "entries": [
+    {
+      "name": "res/drawable-mdpi/wide.png",
+      "size": 6263,
+      "sha256": "e773f469bf8019141b0f7393598c7acc47b0452f02bf6d28201d18898844efe0"
+    },
+    {
+      "name": "res/drawable-hdpi/wide.png",
+      "size": 9802,
+      "sha256": "41776cecdd14cd62b6b9847cb90d8d63ec395e7c6153e269efb05a53c126e907"
+    },
+    {
+      "name": "res/drawable-xhdpi/wide.png",
+      "size": 12196,
+      "sha256": "1121863d6ace83edac60c93f07ab95695b1153546fe3ba1db63d6fe816006f73"
+    },
+    {
+      "name": "res/drawable-xxhdpi/wide.png",
+      "size": 20270,
+      "sha256": "a717f12bad91b8895dcaa0a3d89311a953d9cf95b0cdbb4c6d9f12369bd59b53"
+    },
+    {
+      "name": "res/drawable-xxxhdpi/wide.png",
+      "size": 24657,
+      "sha256": "5afbcd82561f88f5b8ac6a6d03c2a44c42eb856dcb73bbc75025fc27d0c14f5f"
+    },
+    {
+      "name": "README.txt",
+      "size": 467,
+      "sha256": null
+    }
+  ],
+  "readme": [
+    "Sharp Viewer - Android assets",
+    "",
+    "Drawable \"wide\" - 200x100 dp, from a 4000x1000 px source",
+    "",
+    "res/drawable-mdpi/wide.png: 200x100 px (1x)",
+    "res/drawable-hdpi/wide.png: 300x150 px (1.5x)",
+    "res/drawable-xhdpi/wide.png: 400x200 px (2x)",
+    "res/drawable-xxhdpi/wide.png: 600x300 px (3x)",
+    "res/drawable-xxxhdpi/wide.png: 800x400 px (4x)",
+    "",
+    "No warnings: the source has enough pixels for every size.",
+    "",
+    "Copy the res/ folders into your module's src/main/res/."
+  ]
+}

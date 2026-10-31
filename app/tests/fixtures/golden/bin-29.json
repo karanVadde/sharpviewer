@@ -1,0 +1,11 @@
+{
+  "url": "/export?corners=50&format=jpeg&bg=%2300ff00",
+  "status": 200,
+  "contentType": "image/jpeg",
+  "size": 20693,
+  "sha256": "e1815f6305a9043e98f4145dbc9ddbf5f5758759845813e2ee89798d0e386c0f",
+  "headers": {
+    "content-disposition": "attachment; filename=\"sample-960x640.jpg\"",
+    "x-export-quality": "82"
+  }
+}

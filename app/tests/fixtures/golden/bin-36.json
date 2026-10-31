@@ -1,0 +1,11 @@
+{
+  "url": "/export?layout=split-h&cells=photo,fhd&preset=x-header&format=jpeg&quality=70",
+  "status": 200,
+  "contentType": "image/jpeg",
+  "size": 108135,
+  "sha256": "05fbb512023056b90291e6e20aec8002177b5804c14888ba10d8cf49a687bb6e",
+  "headers": {
+    "content-disposition": "attachment; filename=\"collage-split-h-x-header-1500x500.jpg\"",
+    "x-export-quality": "70"
+  }
+}

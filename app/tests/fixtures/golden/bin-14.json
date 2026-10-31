@@ -1,0 +1,8 @@
+{
+  "url": "/image?image=photo&preset=ig-story",
+  "status": 200,
+  "contentType": "image/png",
+  "size": 555013,
+  "sha256": "b0939ad58f5623d21e3da06fbb31ef6c6d4c535911fc8d595bbb5473242bdbe7",
+  "headers": {}
+}

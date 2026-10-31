@@ -1,0 +1,122 @@
+{
+  "url": "/android.zip?image=photo&androidMode=icon&bg=%231f2933",
+  "status": 200,
+  "filename": "ic_launcher-android.zip",
+  "warnings": "",
+  "entries": [
+    {
+      "name": "res/mipmap-mdpi/ic_launcher_foreground.png",
+      "size": 3115,
+      "sha256": "c99a4f60c8ed055807a4274843c21fc0df1944ded864056fcb7d6f39276dac46"
+    },
+    {
+      "name": "res/mipmap-mdpi/ic_launcher_background.png",
+      "size": 394,
+      "sha256": "0f4cdda2b143579e607bee2b2df494c41acb40a937ccfc1f1c0407f0c2394297"
+    },
+    {
+      "name": "res/mipmap-mdpi/ic_launcher.png",
+      "size": 2793,
+      "sha256": "6dec9590221d9fc551c0eadd93f61f1eec0203b321d698972a2dbd3aacd2e041"
+    },
+    {
+      "name": "res/mipmap-hdpi/ic_launcher_foreground.png",
+      "size": 6026,
+      "sha256": "6258b0df544be1933ae3a6c3b72b6beb56debe9c9efc2e404835c9f9ed3d657c"
+    },
+    {
+      "name": "res/mipmap-hdpi/ic_launcher_background.png",
+      "size": 596,
+      "sha256": "91a2c762ad2c1a2df27799bf10b7a9a69d4f4d5a62038bc9fce98dd5db34c83d"
+    },
+    {
+      "name": "res/mipmap-hdpi/ic_launcher.png",
+      "size": 4469,
+      "sha256": "3868acad1f9e0acdc9256bd76d4bb285eeda5ba1c76fb5890ccf76504e97d598"
+    },
+    {
+      "name": "res/mipmap-xhdpi/ic_launcher_foreground.png",
+      "size": 8815,
+      "sha256": "6df1fa5621e0a62948ba6139c85539e91204f4aea2c9e256c735e644d6ff1de5"
+    },
+    {
+      "name": "res/mipmap-xhdpi/ic_launcher_background.png",
+      "size": 789,
+      "sha256": "342570200b4f7454168d80e88c4ff85123fe9a9ed01b65e11fa551c003728413"
+    },
+    {
+      "name": "res/mipmap-xhdpi/ic_launcher.png",
+      "size": 6066,
+      "sha256": "815f3a06febd3aec07f911871f014e65eda4be5f465f3f471e8ae9338c9db40b"
+    },
+    {
+      "name": "res/mipmap-xxhdpi/ic_launcher_foreground.png",
+      "size": 19537,
+      "sha256": "659f620b46562f52b9b50dfe8f7037ed53f2b2508c20ce9fa0838655926697db"
+    },
+    {
+      "name": "res/mipmap-xxhdpi/ic_launcher_background.png",
+      "size": 1168,
+      "sha256": "d0cfc01ca4c50abfcf2a10843f20af91805785d0413417d9e252a75ee9cffdd1"
+    },
+    {
+      "name": "res/mipmap-xxhdpi/ic_launcher.png",
+      "size": 11448,
+      "sha256": "1bff998d5fff1e8941f8fecade2344077664c6d6531403503d3ac96182d8b651"
+    },
+    {
+      "name": "res/mipmap-xxxhdpi/ic_launcher_foreground.png",
+      "size": 29094,
+      "sha256": "1020f4cd409d9855f52eb6c9a0d68166d6805ea01404088bcf1f2fc2dcce91fa"
+    },
+    {
+      "name": "res/mipmap-xxxhdpi/ic_launcher_background.png",
+      "size": 1894,
+      "sha256": "4000eac5e33923c37a2504b7857e24239f630c00372a0f0e43c0547484bdfe2d"
+    },
+    {
+      "name": "res/mipmap-xxxhdpi/ic_launcher.png",
+      "size": 18756,
+      "sha256": "4924d2275a0d12903fdcb315ac45182d07399f3a6a6667762e1e99e1fddb451d"
+    },
+    {
+      "name": "res/mipmap-anydpi-v26/ic_launcher.xml",
+      "size": 267,
+      "sha256": "2064a796955073165e9d9781e81ca7795800b613506b0ed275b68d8af9a11787"
+    },
+    {
+      "name": "res/mipmap-anydpi-v26/ic_launcher_round.xml",
+      "size": 267,
+      "sha256": "2064a796955073165e9d9781e81ca7795800b613506b0ed275b68d8af9a11787"
+    },
+    {
+      "name": "playstore/ic_launcher-512.png",
+      "size": 111242,
+      "sha256": "dcccdb299779053aa80675e7bc506e7e5237d619f534e88fd2a7db73e06a8fec"
+    },
+    {
+      "name": "README.txt",
+      "size": 1206,
+      "sha256": null
+    }
+  ],
+  "readme": [
+    "Sharp Viewer - Android assets",
+    "",
+    "Launcher icon \"ic_launcher\" - adaptive (API 26+) + legacy + Play Store, background #1f2933",
+    "",
+    "res/mipmap-mdpi/: ic_launcher.png 48x48 (legacy 48 dp), ic_launcher_foreground.png + _background.png 108x108 (adaptive 108 dp)",
+    "res/mipmap-hdpi/: ic_launcher.png 72x72 (legacy 48 dp), ic_launcher_foreground.png + _background.png 162x162 (adaptive 108 dp)",
+    "res/mipmap-xhdpi/: ic_launcher.png 96x96 (legacy 48 dp), ic_launcher_foreground.png + _background.png 216x216 (adaptive 108 dp)",
+    "res/mipmap-xxhdpi/: ic_launcher.png 144x144 (legacy 48 dp), ic_launcher_foreground.png + _background.png 324x324 (adaptive 108 dp)",
+    "res/mipmap-xxxhdpi/: ic_launcher.png 192x192 (legacy 48 dp), ic_launcher_foreground.png + _background.png 432x432 (adaptive 108 dp)",
+    "res/mipmap-anydpi-v26/ic_launcher.xml + ic_launcher_round.xml: adaptive icon definitions",
+    "playstore/ic_launcher-512.png: Play Store listing icon (512x512, no transparency)",
+    "",
+    "Safe zone: the image is fitted into the 66 dp circle's square of the 108 dp canvas; launchers mask the outer 18 dp.",
+    "",
+    "No warnings: the source has enough pixels for every size.",
+    "",
+    "Copy the res/ folders into your module's src/main/res/."
+  ]
+}
